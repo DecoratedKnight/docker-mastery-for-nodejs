@@ -1,5 +1,12 @@
-# Docker Mastery for Node.js Projects From a Docker Captain
+## Section 2: Docker Compose Basics
+composeのバージョンについて
+v2 ... シングルノードの開発 / テスト
+v3 ... 複数ノードのオーケストレーション
+→ Swarm / k8s などを使わないなら v2 でも大丈夫(でも別に3にしないメリットないとも個人的には思う)
 
-This repo is for use in my Udemy Course https://www.bretfisher.com/docker-mastery-for-nodejs
+docker-compose exec のあとはサービス名を指定する
+ex ) docker-compose exec web sh
+docker container run の時のように -it を付けなくていい
 
-Feel free to create issues or PRs if you find a problem with the repo. Please use the Udemy course for Q&A and course support.
+イメージをビルドし直すときは --build をつける
+Dockerfileを更新したからといって勝手に再ビルドされる訳ではない
