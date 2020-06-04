@@ -10,3 +10,27 @@ docker container run の時のように -it を付けなくていい
 
 イメージをビルドし直すときは --build をつける
 Dockerfileを更新したからといって勝手に再ビルドされる訳ではない
+
+## Section 3: Node Dockerfile Best Practice Basics
+### Dockerfile best practice
+CMDではnpmではなくnodeで起動した方がいいらしい
+- npm から nodeが起動する、というワンステップを踏むから
+- 実際に何をしているかDockerfileでわかりやすいから
+- initかPID 1 ではうまく動かないから
+
+https://text.superbrothers.dev/200328-how-to-avoid-pid-1-problem-in-kubernetes/
+でもここ見るとnpm経由した方が良さそうな楽な気も
+
+https://www.creationline.com/lab/29422
+BretFisherの記事
+
+https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md
+nodejs公式
+
+mkdirしないで WORKDIR をすればいい
+ディレクトリがなければ勝手に作る、所有者もいい感じに
+
+### BaseImageについて
+バージョンを固定する。latestは使わない
+alpine推しでslimに否定的だけど、上の記事では逆
+→ 意見が変わったのかな
