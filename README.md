@@ -34,3 +34,15 @@ mkdirしないで WORKDIR をすればいい
 バージョンを固定する。latestは使わない
 alpine推しでslimに否定的だけど、上の記事では逆
 → 意見が変わったのかな
+
+### node User
+nodeユーザーを使おう
+npm i -g やパッケージ周りはrootの時にいれる
+npm i （ローカル）はnodeになってから
+
+Dockerfile
+USER node ... ユーザー切り替え
+RUN mkdir app && chown -R node:node . ... パーミッション変更
+
+ユーザーを切り替えていてもWORKDIRやCOPYはrootで走る
+USERが影響するのは RUN ENTRYPOINT CMD の3つ
