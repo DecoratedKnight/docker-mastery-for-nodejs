@@ -3,7 +3,7 @@ FROM node:10.15-alpine
 
 EXPOSE 3000
 
-RUN apk add --no-cache tini
+# RUN apk add --no-cache tini
 
 WORKDIR /node
 
@@ -17,6 +17,6 @@ RUN npm i && npm cache clean --force
 
 COPY --chown=node:node . .
 
-ENTRYPOINT ["/sbin/tini", "--"]
+# ENTRYPOINT ["/sbin/tini", "--"]
 
 CMD ["node", "app.js"]
