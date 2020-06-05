@@ -27,6 +27,9 @@ BretFisherの記事
 https://github.com/nodejs/docker-node/blob/master/docs/BestPractices.md
 nodejs公式
 
+https://www.m3tech.blog/entry/2018/11/26/160000
+やっぱりnpm経由はダメみたい
+
 mkdirしないで WORKDIR をすればいい
 ディレクトリがなければ勝手に作る、所有者もいい感じに
 
@@ -66,3 +69,6 @@ PID1問題は大きく二つ
 - --init オプションをコンテナ起動時に使う
 - tini をイメージに追加する
 - SIGINTをハンドリングするコードを書く
+
+## Section 5: Advanced Dockerfiles with Multi-stage and BuildKit
+マルチステージビルドでどのステージをビルドするかは --target オプションを使う
