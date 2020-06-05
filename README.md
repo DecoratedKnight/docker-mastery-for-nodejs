@@ -16,7 +16,7 @@ Dockerfileを更新したからといって勝手に再ビルドされる訳で�
 CMDではnpmではなくnodeで起動した方がいいらしい
 - npm から nodeが起動する、というワンステップを踏むから
 - 実際に何をしているかDockerfileでわかりやすいから
-- initかPID 1 ではうまく動かないから
+- でも nodeは initかPID 1 ではうまく動かない
 
 https://text.superbrothers.dev/200328-how-to-avoid-pid-1-problem-in-kubernetes/
 でもここ見るとnpm経由した方が良さそうな楽な気も
@@ -48,3 +48,21 @@ RUN mkdir app && chown -R node:node . ... パーミッション変更
 USERが影響するのは RUN ENTRYPOINT CMD の3つ
 
 rootユーザーでコンテナに入りたかったりするときは -u root オプションをつけるとできる
+
+## Section 4: Controlling The Node Process In Containers
+プロセス管理(nodemon, forever, pm2)は本番稼働に必要ない
+Dockerがアプリの起動などをするから
+ただし開発用途で使うことはある（watchなどで）
+
+### アプリ正常終了のために
+PID1問題は大きく二つ
+・ゾンビプロセス ... これはnodeではあまり問題にならないらしい
+・正常終了
+→ SIGINT / SIGTERMに反応しないといけない（SIGKILLはコンテナまで届かないので関係ない）
+→ npmは上記に反応しない
+→ nodeならハンドリングするコードがかける
+
+方法
+- --init オプションをコンテナ起動時に使う
+- tini をイメージに追加する
+- SIGINTをハンドリングするコードを書く
