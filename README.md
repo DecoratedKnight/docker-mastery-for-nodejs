@@ -72,3 +72,13 @@ PID1問題は大きく二つ
 
 ## Section 5: Advanced Dockerfiles with Multi-stage and BuildKit
 マルチステージビルドでどのステージをビルドするかは --target オプションを使う
+
+## Section 6: Node Apps in Cloud Native Docker
+12factorをよく知る
+設定は環境変数で渡す
+ログは標準出力に出す
+
+bindmountするときコンテナ側のディレクトリは作らなくても大丈夫
+DockerfileのVOLUME指定もいらない
+
+VOLUMEはなんか永続化したいのがわかりきってる時に使えばいいっぽい、container run -v の時にボリューム指定しなくても作られるので
