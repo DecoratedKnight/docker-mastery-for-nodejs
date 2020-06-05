@@ -46,3 +46,5 @@ RUN mkdir app && chown -R node:node . ... パーミッション変更
 
 ユーザーを切り替えていてもWORKDIRやCOPYはrootで走る
 USERが影響するのは RUN ENTRYPOINT CMD の3つ
+
+rootユーザーでコンテナに入りたかったりするときは -u root オプションをつけるとできる

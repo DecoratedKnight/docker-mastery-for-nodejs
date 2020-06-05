@@ -16,4 +16,5 @@ WORKDIR /node/app
 
 COPY --chown=node:node . .
 
-CMD ["node", "app.js"]
+# CMD ["node", "app.js"]
+CMD ["npm", "start"]
