@@ -112,3 +112,26 @@ Dockerfileでimage側で先にnpm iするように書いてあったとしても
 コンテナ側では空になるので、共存できる
 当然 .dockerignoreで node_modulesは対象に入れておく（COPYした時にコンテナ側に渡らないように）
 こちらの方が柔軟性はあるが、ライブラリが対応してないとできない
+
+docker-compose.yml のcommand で、コンテナ起動時のコマンドを上書きできる
+開発時にnodemonなどの起動を仕込めばwatchできる
+
+docker-composeのdepends_onは起動の順番を指定するのであって、readyかどうかはわからない
+v2だと conditionをつけて ヘルスチェックをできるが、v3だとそれがない
+(なのでローカル開発用途ならv2を推しているっぽい)
+https://docs.docker.com/compose/compose-file/compose-file-v2/#depends_on
+https://docs.docker.com/compose/compose-file/#depends_on
+https://docs.docker.com/compose/startup-order/
+
+マイクロサービス開発時の問題
+・エンドポイントめっちゃあってそれぞれの名前解決が必要
+→ Nginx/HAProxy/Traefik などのプロキシサーバーで x.localhost にルーティングしちゃう (chrome)
+→ vcap.me xip.io のようなワイルドカードドメインを使う
+→ dnsmasq を使う
+→ hostsを自分で編集する
+
+・CORS
+→ * ヘッダーつけたプロキシ
+
+・ローカルのHTTPS
+https://letsencrypt.org/docs/certificates-for-localhost/

@@ -3,10 +3,11 @@ version: '2.4'
 services:
   express:
     build: .
+    command: nodemon ./bin/www
     ports:
       - 3000:3000
     volumes:
-      - .:/app
+      - .:/app:delegated
     environment:
       - DEBUG=sample-express:*
       - NODE_ENV=development
