@@ -83,3 +83,32 @@ bindmountするときコンテナ側のディレクトリは作らなくても�
 DockerfileのVOLUME指定もいらない
 
 VOLUMEはなんか永続化したいのがわかりきってる時に使えばいいっぽい、container run -v の時にボリューム指定しなくても作られるので
+
+## Section 7: Compose for Awesome Local Development
+Docker for Mac ではマウント遅い問題がある
+マウントオプションにcached or delegated を指定すると改善することができる
+https://docs.docker.com/docker-for-mac/osxfs-caching/
+https://www.to-mega-therion.net/docker/docker-mounted-volume-slow
+
+node_modulesをホスト側からコンテナにコピーしないこと
+→ OS依存のバイナリとかがある（node-gyp）
+→ 重くなる
+.dockerignoreを必ず書こう
+
+上記の理由で、node_modulesをbind-mountできない（host側がmac / winの場合）
+→ 1 ) ホスト側で npm installをしないで、composeでやる
+→ 2 ) image側のmoduleを移動して、ホスト側から隠す
+
+1 ) 
+コンテナ側の空ではないディレクトリをbind-mountした場合、ホスト側の情報で上書きされる
+したがってホスト側にnode_modulesがない状態で、ディレクトリ丸ごとbind-mountしたら、
+Dockerfileでimage側で先にnpm iするように書いてあったとしてもnode_modulesがない状態のコンテナが立ち上がる
+→ docker-compose run express npm i として、サービス側でインストールすればいい。それからdocker-compose up
+→ bind-mount済なので、host側にnode_modulesが出てくるはず（中身はコンテナ側で実行されたもの）
+
+2 ) node_modulesは親の階層を辿って探しに行くことを利用して、npm iを一つ上の階層で実行する
+そしてその他のソースコードは一階層深いところに置く
+また、ホスト側にnode_modulesがあったりしたらbind-mountされてしまうので、それを無名volumeと結び付けておくと
+コンテナ側では空になるので、共存できる
+当然 .dockerignoreで node_modulesは対象に入れておく（COPYした時にコンテナ側に渡らないように）
+こちらの方が柔軟性はあるが、ライブラリが対応してないとできない
