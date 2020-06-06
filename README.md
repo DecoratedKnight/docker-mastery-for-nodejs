@@ -135,3 +135,5 @@ https://docs.docker.com/compose/startup-order/
 
 ・ローカルのHTTPS
 https://letsencrypt.org/docs/certificates-for-localhost/
+
+・リモートデバッグのやり方を別途勉強したい
