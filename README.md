@@ -137,3 +137,19 @@ https://docs.docker.com/compose/startup-order/
 https://letsencrypt.org/docs/certificates-for-localhost/
 
 ・リモートデバッグのやり方を別途勉強したい
+
+## Section 8: Making Container Images Production Ready
+npm ci ... lockを最優先するから速い。prod用に使える
+multi-stage-buildで本番用と開発用をビルドし分ける例
+1 ) baseを作る。dependencyだけインストールする、NODE_ENV=productionなど
+2 ) devを作る。devDependencyをインストールするなど。この時ファイルコピーする必要ない
+どうせbind-mountするから
+3 ) prodを作る。baseをもとにする。ファイルコピーしてアプリ起動
+
+Dockerfileの書き方
+LABEL ... メタデータを書ける。 OCIっていうコンテナの基準があるらしい
+ARG ... dockerfile内で利用できる変数。docker image build --build-arg として外から値を渡せる
+ビルド日付やコミットハッシュなどをもらってOCI準拠のLABELを書いたりする
+
+test
+test用のstageを書いてCIにかける感じ
